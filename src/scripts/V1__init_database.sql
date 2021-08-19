@@ -39,4 +39,4 @@ insert into book (isbn, publisher, title, author_id) values ('978-0321125217', '
 insert into author (first_name, last_name) values ('Robert', 'Martin');
 
 insert into book (isbn, publisher, title, author_id) values ('978-0134494166', 'Addison Wesley',
-    'Domain-Driven Design',(select id from author where first_name = 'Robert' and last_name = 'Martin') );
+    'Clean Code',(select id from author where first_name = 'Robert' and last_name = 'Martin') );
