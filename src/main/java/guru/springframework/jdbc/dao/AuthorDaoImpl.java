@@ -32,7 +32,7 @@ public class AuthorDaoImpl implements AuthorDao {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM author where id = " + id);
 
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 Author author = new Author();
                 author.setId(id);
                 author.setFirstName(resultSet.getString("first_name"));
@@ -42,6 +42,22 @@ public class AuthorDaoImpl implements AuthorDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+
+                if (statement != null){
+                    statement.close();
+                }
+
+                if (connection != null){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return null;
