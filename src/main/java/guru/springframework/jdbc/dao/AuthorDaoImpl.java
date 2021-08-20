@@ -4,10 +4,7 @@ import guru.springframework.jdbc.domain.Author;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by jt on 8/20/21.
@@ -24,13 +21,14 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public Author getById(Long id) {
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement ps = null;
         ResultSet resultSet = null;
 
         try {
             connection = source.getConnection();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM author where id = " + id);
+            ps = connection.prepareStatement("SELECT * FROM author where id = ?");
+            ps.setLong(1, id);
+            resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
                 Author author = new Author();
@@ -48,8 +46,8 @@ public class AuthorDaoImpl implements AuthorDao {
                     resultSet.close();
                 }
 
-                if (statement != null){
-                    statement.close();
+                if (ps != null){
+                    ps.close();
                 }
 
                 if (connection != null){
