@@ -24,6 +24,21 @@ public class AuthorDaoIntegrationTest {
     AuthorDao authorDao;
 
     @Test
+    void testDeleteAuthor() {
+        Author author = new Author();
+        author.setFirstName("john");
+        author.setLastName("t");
+
+        Author saved = authorDao.saveNewAuthor(author);
+
+        authorDao.deleteAuthorById(saved.getId());
+
+        Author deleted = authorDao.getById(saved.getId());
+
+        assertThat(deleted).isNull();
+    }
+
+    @Test
     void testUpdateAuthor() {
         Author author = new Author();
         author.setFirstName("john");
